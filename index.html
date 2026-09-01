@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hari Prasad Venkataramani — Technical Portfolio</title>
+  <meta name="description" content="Technical portfolio of Hari Prasad Venkataramani — systems builder, data engineer, ML practitioner.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F4F3EF;
+      --surface: #FFFFFF;
+      --dark: #1A1208;
+      --gold: #9A7B2F;
+      --gold-light: #C4A24A;
+      --gold-pale: #FBF6E9;
+      --muted: #6B6455;
+      --border: #DDD8CC;
+      --text: #1A1208;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --sidebar-w: 248px;
+      --ease: 0.22s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.7; }
+
+    /* ── SIDEBAR ───────────────────────────────────── */
+    .sidebar {
+      position: fixed; top: 0; left: 0;
+      width: var(--sidebar-w); height: 100vh;
+      background: var(--dark);
+      display: flex; flex-direction: column;
+      padding: 2.25rem 1.5rem; z-index: 100; overflow-y: auto;
+    }
+
+    .sidebar-name { font-family: var(--font-display); font-size: 0.82rem; font-weight: 700; color: #fff; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.3; margin-bottom: 0.3rem; }
+    .sidebar-role { font-family: var(--font-mono); font-size: 0.6rem; color: #3A3020; line-height: 1.6; margin-bottom: 0.75rem; }
+
+    .sidebar-links { display: flex; gap: 0.6rem; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #0F0A02; }
+    .sidebar-link { font-family: var(--font-mono); font-size: 0.58rem; color: #3A3020; text-decoration: none; letter-spacing: 0.05em; transition: color var(--ease); }
+    .sidebar-link:hover { color: var(--gold-light); }
+
+    .nav-group-label { font-family: var(--font-mono); font-size: 0.56rem; color: #2A2010; letter-spacing: 0.15em; text-transform: uppercase; margin: 1.25rem 0 0.5rem; }
+
+    .nav-link { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-body); font-size: 0.78rem; color: #5A5040; text-decoration: none; padding: 0.35rem 0.6rem; border-radius: 4px; margin-bottom: 0.1rem; transition: var(--ease); border-left: 2px solid transparent; }
+    .nav-link:hover { color: #C4A24A; background: rgba(255,255,255,0.03); }
+    .nav-link.active { color: #fff; border-left-color: var(--gold-light); background: rgba(196,162,74,0.1); }
+
+    .nav-num { font-family: var(--font-mono); font-size: 0.55rem; color: #2A2010; min-width: 14px; transition: var(--ease); }
+    .nav-link.active .nav-num { color: var(--gold-light); }
+
+    .sidebar-footer { margin-top: auto; padding-top: 1.5rem; border-top: 1px solid #0F0A02; font-family: var(--font-mono); font-size: 0.57rem; color: #2A2010; line-height: 1.6; }
+
+    /* ── MAIN ──────────────────────────────────────── */
+    .main { margin-left: var(--sidebar-w); }
+
+    /* ── HERO ──────────────────────────────────────── */
+    .hero { background: var(--dark); padding: 5rem 4rem 4.5rem; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(196,162,74,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(196,162,74,0.06) 1px, transparent 1px); background-size: 32px 32px; pointer-events: none; }
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 0.66rem; color: var(--gold-light); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 1.75rem; opacity: 0.85; }
+    .hero-name { font-family: var(--font-display); font-size: clamp(2.4rem, 3.5vw, 3.4rem); font-weight: 700; color: #fff; line-height: 1.08; margin-bottom: 0.6rem; letter-spacing: -0.025em; }
+    .hero-subtitle { font-size: 0.95rem; color: #5A5040; margin-bottom: 3rem; font-style: italic; }
+
+    .spec-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(196,162,74,0.18); border-radius: 6px; padding: 1.25rem 1.5rem; max-width: 500px; }
+    .spec-header { font-family: var(--font-mono); font-size: 0.6rem; color: var(--gold-light); letter-spacing: 0.14em; margin-bottom: 0.85rem; padding-bottom: 0.6rem; border-bottom: 1px solid rgba(196,162,74,0.12); }
+    .spec-row { display: grid; grid-template-columns: 108px 1fr; margin-bottom: 0.32rem; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.67rem; line-height: 1.5; }
+    .spec-k { color: #2A2010; text-transform: uppercase; letter-spacing: 0.07em; font-size: 0.6rem; }
+    .spec-v { color: #9A8A60; }
+
+    /* ── SECTIONS ──────────────────────────────────── */
+    .section { padding: 4rem; border-bottom: 1px solid var(--border); }
+    .section-white { background: var(--surface); }
+
+    .section-eyebrow { font-family: var(--font-mono); font-size: 0.6rem; color: var(--gold); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .section-title { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; color: var(--dark); line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 0.35rem; }
+    .section-org { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); margin-bottom: 1.75rem; }
+
+    .divider { height: 2px; background: linear-gradient(to right, var(--gold), transparent); border: none; border-radius: 2px; margin-bottom: 2rem; }
+
+    .body { font-size: 0.93rem; color: var(--text); line-height: 1.78; margin-bottom: 1.1rem; max-width: 680px; }
+    .sub-h { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; color: var(--dark); margin: 2rem 0 0.5rem; }
+    .label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin: 1.5rem 0 0.4rem; font-weight: 700; }
+
+    .callout { background: var(--gold-pale); border-left: 3px solid var(--gold); border-radius: 0 4px 4px 0; padding: 1rem 1.25rem; font-size: 0.88rem; color: #3A2A08; line-height: 1.65; margin: 1.75rem 0; max-width: 680px; }
+    .pull-quote { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; font-style: italic; color: var(--dark); padding-left: 1.25rem; border-left: 3px solid var(--gold-light); margin: 1.75rem 0; max-width: 640px; line-height: 1.55; }
+
+    /* ── CODE BLOCK ────────────────────────────────── */
+    .code-block { background: #1A1208; border-radius: 6px; padding: 1.25rem 1.5rem; font-family: var(--font-mono); font-size: 0.75rem; color: #C4A24A; line-height: 1.7; margin: 1.5rem 0; max-width: 680px; overflow-x: auto; }
+    .code-comment { color: #5A5040; }
+    .code-keyword { color: #E8C86A; }
+    .code-string { color: #A8C88A; }
+
+    /* ── METRICS ───────────────────────────────────── */
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin: 1.75rem 0; max-width: 680px; }
+    .metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.25rem; }
+    .metric-val { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; color: var(--dark); line-height: 1; margin-bottom: 0.25rem; }
+    .metric-label { font-family: var(--font-mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* ── TIMELINE ──────────────────────────────────── */
+    .timeline { position: relative; padding-left: 2rem; margin-top: 1.25rem; }
+    .timeline::before { content: ''; position: absolute; left: 7px; top: 8px; bottom: 12px; width: 2px; background: linear-gradient(to bottom, var(--gold) 80%, transparent); }
+    .tl-item { position: relative; margin-bottom: 1.75rem; }
+    .tl-item::before { content: ''; position: absolute; left: -1.62rem; top: 7px; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); border: 2px solid var(--bg); box-shadow: 0 0 0 2px var(--gold); transition: var(--ease); }
+    .tl-item:hover::before { background: var(--gold-light); box-shadow: 0 0 0 2px var(--gold-light); }
+    .tl-role { font-family: var(--font-display); font-size: 0.92rem; font-weight: 600; color: var(--dark); line-height: 1.3; }
+    .tl-org { font-family: var(--font-mono); font-size: 0.63rem; color: var(--gold); margin: 0.15rem 0; }
+    .tl-tags { font-size: 0.74rem; color: var(--muted); font-style: italic; line-height: 1.55; margin-top: 0.15rem; }
+
+    /* ── TOOLKIT ───────────────────────────────────── */
+    .toolkit-block { margin-bottom: 2rem; }
+    .toolkit-label { font-family: var(--font-mono); font-size: 0.6rem; color: var(--gold); letter-spacing: 0.13em; text-transform: uppercase; margin-bottom: 0.7rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .tag { font-size: 0.76rem; font-weight: 500; padding: 0.28rem 0.7rem; border-radius: 3px; background: var(--surface); border: 1px solid var(--border); color: var(--text); transition: var(--ease); }
+    .tag-primary { background: var(--gold-pale); border-color: rgba(154,123,47,0.22); color: var(--gold); }
+    .tag:hover { border-color: var(--gold-light); color: var(--dark); }
+
+    /* ── CONNECT ───────────────────────────────────── */
+    .connect-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 2rem; max-width: 600px; }
+    .connect-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem; text-decoration: none; transition: var(--ease); }
+    .connect-card:hover { border-color: var(--gold-light); transform: translateY(-2px); }
+    .connect-card-label { font-family: var(--font-mono); font-size: 0.6rem; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .connect-card-value { font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--dark); }
+
+    /* ── FOOTER ────────────────────────────────────── */
+    .portfolio-footer { text-align: center; padding: 2rem 4rem; font-family: var(--font-mono); font-size: 0.6rem; color: #A09070; letter-spacing: 0.1em; border-top: 1px solid var(--border); }
+
+    /* ── MOBILE ────────────────────────────────────── */
+    .mobile-bar { display: none; background: var(--dark); padding: 1rem 1.5rem; position: sticky; top: 0; z-index: 200; align-items: center; justify-content: space-between; }
+    .mobile-name { font-family: var(--font-display); font-size: 0.78rem; font-weight: 700; color: #fff; letter-spacing: 0.05em; }
+    .mobile-menu-btn { background: none; border: 1px solid #2A2010; border-radius: 4px; padding: 0.35rem 0.6rem; cursor: pointer; color: #5A5040; font-size: 0.75rem; font-family: var(--font-mono); }
+    .mobile-menu-btn:hover { color: #fff; }
+    .mobile-nav { display: none; background: var(--dark); padding: 1rem 1.5rem 1.5rem; border-top: 1px solid #0F0A02; }
+    .mobile-nav.open { display: block; }
+    .mobile-nav .nav-link { font-size: 0.85rem; padding: 0.5rem 0.6rem; }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .mobile-bar { display: flex; }
+      .section { padding: 2.5rem 1.5rem; }
+      .hero { padding: 3rem 1.5rem 2.5rem; }
+      .spec-card { max-width: 100%; }
+      .portfolio-footer { padding: 2rem 1.5rem; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .connect-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MOBILE BAR -->
+  <div class="mobile-bar">
+    <div class="mobile-name">Hari Prasad V.</div>
+    <button class="mobile-menu-btn" onclick="toggleMenu()">MENU</button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#philosophy" class="nav-link" onclick="closeMenu()"><span class="nav-num">01</span>Philosophy</a>
+    <a href="#loan" class="nav-link" onclick="closeMenu()"><span class="nav-num">02</span>Loan Risk System</a>
+    <a href="#forecasting" class="nav-link" onclick="closeMenu()"><span class="nav-num">03</span>ML Forecasting</a>
+    <a href="#inventory" class="nav-link" onclick="closeMenu()"><span class="nav-num">04</span>Inventory System</a>
+    <a href="#experience" class="nav-link" onclick="closeMenu()"><span class="nav-num">05</span>Experience</a>
+    <a href="#toolkit" class="nav-link" onclick="closeMenu()"><span class="nav-num">06</span>Toolkit</a>
+    <a href="#connect" class="nav-link" onclick="closeMenu()"><span class="nav-num">07</span>Connect</a>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-name">Hari Prasad<br>Venkataramani</div>
+    <div class="sidebar-role">M.S. Industrial Engineer<br>Systems · Data · Automation</div>
+    <div class="sidebar-links">
+      <a href="mailto:vhari98@gmail.com" class="sidebar-link">EMAIL ↗</a>
+      <a href="https://linkedin.com/in/vhari98" class="sidebar-link" target="_blank">LINKEDIN ↗</a>
+    </div>
+
+    <div class="nav-group-label">About</div>
+    <a href="#philosophy" class="nav-link"><span class="nav-num">01</span>Philosophy</a>
+
+    <div class="nav-group-label">Projects</div>
+    <a href="#loan" class="nav-link"><span class="nav-num">02</span>Loan Risk System</a>
+    <a href="#forecasting" class="nav-link"><span class="nav-num">03</span>ML Forecasting</a>
+    <a href="#inventory" class="nav-link"><span class="nav-num">04</span>Inventory System</a>
+
+    <div class="nav-group-label">Background</div>
+    <a href="#experience" class="nav-link"><span class="nav-num">05</span>Experience</a>
+    <a href="#toolkit" class="nav-link"><span class="nav-num">06</span>Toolkit</a>
+
+    <div class="nav-group-label">Contact</div>
+    <a href="#connect" class="nav-link"><span class="nav-num">07</span>Connect</a>
+
+    <div class="sidebar-footer">
+      Building Systems That Matter<br>
+      Portfolio · 2026
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <div class="hero-eyebrow">◆ Technical Portfolio · Software Engineering Analyst</div>
+        <h1 class="hero-name">Building Systems<br>That Matter</h1>
+        <p class="hero-subtitle">Hari Prasad Venkataramani &nbsp;·&nbsp; M.S. Industrial Engineering &nbsp;·&nbsp; Python · SQL · Systems Design</p>
+        <div class="spec-card">
+          <div class="spec-header">◆ TECHNICAL PROFILE ────────────────────────────</div>
+          <div class="spec-row"><span class="spec-k">Degree</span><span class="spec-v">M.S. Industrial Engineering, NC State (2026)</span></div>
+          <div class="spec-row"><span class="spec-k">Languages</span><span class="spec-v">Python · SQL · VBA · SAS · GAMS</span></div>
+          <div class="spec-row"><span class="spec-k">Focus</span><span class="spec-v">Systems Design · Data Engineering · ML</span></div>
+          <div class="spec-row"><span class="spec-k">Experience</span><span class="spec-v">5+ Years · Financial Services & Global Ops</span></div>
+          <div class="spec-row"><span class="spec-k">Location</span><span class="spec-v">Austin, TX · Open to Relocation</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 01 PHILOSOPHY -->
+    <section class="section" id="philosophy">
+      <div class="section-eyebrow">01 · Engineering Philosophy</div>
+      <h2 class="section-title">How I Build</h2>
+      <hr class="divider">
+
+      <p class="body">My path to engineering has been through Industrial Engineering, where I have focused on using software and data to solve complex operational problems. That foundation shaped how I approach technical work — starting with the data flow, the business constraint, and the failure mode before writing the first line of code.</p>
+      <p class="body">In practice, this means I build things end-to-end. A database application isn't just a schema — it's a data model, a capture layer, processing logic, and an output that someone uses to make a decision. A forecasting model isn't just a trained algorithm — it's feature engineering, validation, interpretability, and a plan for communicating what the model is telling you. I care about the whole system, not just the interesting middle part.</p>
+      <p class="body">These projects strengthened my ability to take a problem from requirements and data through implementation to a technical solution that supports decision-making — working at the intersection of business requirements and technical systems while collaborating with stakeholders across functions.</p>
+
+      <div class="pull-quote">Build something reliable. Make it scalable. Make it useful to the people who depend on it.</div>
+    </section>
+
+    <!-- 02 LOAN RISK SYSTEM -->
+    <section class="section section-white" id="loan">
+      <div class="section-eyebrow">02 · Featured Project</div>
+      <h2 class="section-title">Loan Credit Risk Assessment System</h2>
+      <div class="section-org">MS Access · SQL · Relational Database Design · ISE 519 (A+)</div>
+      <hr class="divider">
+
+      <div class="label">What I Built</div>
+      <p class="body">A full end-to-end relational database application for loan credit risk evaluation — from applicant data capture through automated risk scoring to a final approval/denial output. Built entirely in MS Access with complex SQL logic at the core.</p>
+
+      <div class="label">Data Model</div>
+      <p class="body">Designed a normalized relational schema across six interconnected entities: applicant profile, credit bureau data, credit balance history, previous loan applications, installment records, and risk scoring output. Each form in the application mapped directly to a table, with referential integrity enforced through foreign key relationships.</p>
+
+      <div class="label">SQL Logic</div>
+      <p class="body">The risk scoring engine combined four SQL subqueries into a weighted final score:</p>
+
+      <div class="code-block">
+<span class="code-comment">-- Final Risk Score: weighted combination of 4 subqueries</span>
+<span class="code-keyword">SELECT</span> a.SK_ID_CURR,
+  (u.Utilization_Score * 0.30 +
+   d.Delay_Risk_Score  * 0.25 +
+   e.Ext_Source_Score  * 0.25 +
+   b.Debt_Load_Score   * 0.20) <span class="code-keyword">AS</span> Total_Risk_Score
+<span class="code-keyword">FROM</span> Applications a
+<span class="code-keyword">LEFT JOIN</span> Utilization_qry u <span class="code-keyword">ON</span> a.SK_ID_CURR = u.SK_ID_CURR
+<span class="code-keyword">LEFT JOIN</span> Installment_Delay_Risk_qry d <span class="code-keyword">ON</span> a.SK_ID_CURR = d.SK_ID_CURR
+<span class="code-keyword">LEFT JOIN</span> External_Source_Avg_qry e <span class="code-keyword">ON</span> a.SK_ID_CURR = e.SK_ID_CURR
+<span class="code-keyword">LEFT JOIN</span> Debt_Load_qry b <span class="code-keyword">ON</span> a.SK_ID_CURR = b.SK_ID_CURR
+      </div>
+
+      <p class="body">Each subquery used nested joins, unions, NZ() null-handling, and IIF() conditional logic to compute its component score from raw transactional data. The final scoring query combined all four into a weighted total, which drove the approval/denial output.</p>
+
+      <div class="label">Application Layer</div>
+      <p class="body">Built six data-entry and visualization forms: Main Navigation, Bureau Data, Credit Balance, Credit History, Previous Applications, Risk Analysis (with bar chart visualization of the four risk components), and Final Decision Summary. The full workflow — from applicant data entry to automated decision — required no manual calculation.</p>
+
+      <div class="callout"><strong>Why this matters for Foundation Engineering:</strong> This project demonstrates relational database design, complex multi-subquery SQL, and end-to-end application development in a financial services context. The same patterns — data modeling, query logic, decision automation — are the foundations of data engineering at scale.</div>
+    </section>
+
+    <!-- 03 ML FORECASTING -->
+    <section class="section" id="forecasting">
+      <div class="section-eyebrow">03 · Project</div>
+      <h2 class="section-title">Statistical Demand Forecasting &amp; Capacity Optimization</h2>
+      <div class="section-org">Python · XGBoost · SHAP · GAMS · EM 538 (A+)</div>
+      <hr class="divider">
+
+      <div class="label">Forecasting Model</div>
+      <p class="body">Developed a demand forecasting pipeline in Python comparing four algorithms — Linear Regression, Random Forest, SVR, and XGBoost — using GridSearchCV with 5-fold cross-validation for hyperparameter tuning and RMSE as the primary evaluation metric.</p>
+
+      <div class="code-block">
+<span class="code-comment"># Model comparison pipeline</span>
+models = {
+  <span class="code-string">'LinearRegression'</span>: LinearRegression(),
+  <span class="code-string">'RandomForest'</span>:    RandomForestRegressor(),
+  <span class="code-string">'SVR'</span>:             SVR(),
+  <span class="code-string">'XGBoost'</span>:        XGBRegressor()
+}
+
+<span class="code-keyword">for</span> name, model <span class="code-keyword">in</span> models.items():
+  grid = GridSearchCV(model, param_grid[name], cv=5, scoring=<span class="code-string">'neg_rmse'</span>)
+  grid.fit(X_train, y_train)
+  results[name] = evaluate(grid.best_estimator_, X_test, y_test)
+      </div>
+
+      <div class="label">Feature Engineering &amp; Interpretability</div>
+      <p class="body">Performed feature engineering from raw operational data including lag features, rolling averages, and calendar indicators. Applied SHAP (SHapley Additive exPlanations) analysis to identify the top demand drivers and communicate model outputs to non-technical stakeholders — translating black-box predictions into explainable insights.</p>
+
+      <div class="label">Capacity Optimization</div>
+      <p class="body">Fed XGBoost forecast outputs into a multi-period mixed-integer optimization model built in GAMS. The model translated demand forecasts into production, inventory, and workforce decisions across multiple planning periods while minimizing labor and operating costs under capacity constraints.</p>
+
+      <div class="callout"><strong>Stack:</strong> Python (pandas, NumPy, scikit-learn, XGBoost, SHAP) · GAMS · GridSearchCV · 5-fold cross-validation · RMSE evaluation</div>
+    </section>
+
+    <!-- 04 INVENTORY SYSTEM -->
+    <section class="section section-white" id="inventory">
+      <div class="section-eyebrow">04 · Project</div>
+      <h2 class="section-title">Inventory Planning &amp; Replenishment System</h2>
+      <div class="section-org">Excel · VBA · Automation · ~9,500 SKUs</div>
+      <hr class="divider">
+
+      <div class="metrics">
+        <div class="metric-card"><div class="metric-val">9,500</div><div class="metric-label">SKUs Managed</div></div>
+        <div class="metric-card"><div class="metric-val">8 hrs</div><div class="metric-label">Saved Per Week</div></div>
+        <div class="metric-card"><div class="metric-val">$800/mo</div><div class="metric-label">Subscription Avoided</div></div>
+        <div class="metric-card"><div class="metric-val">~$15.6K</div><div class="metric-label">Annual Savings</div></div>
+      </div>
+
+      <div class="label">System Design</div>
+      <p class="body">Designed and built a demand-driven inventory management system from scratch using Excel VBA — replacing entirely manual processes with automated data pipelines, business logic, and an operational dashboard.</p>
+
+      <div class="label">Core Logic</div>
+      <p class="body">Replenishment engine based on sales velocity: reorder triggered when current stock fell below one week of prior month's average daily sales (monthly average ÷ 4). Suggested order quantity: two months of average demand. Implemented FEFO (First Expired, First Out) logic with dual expiry tracking per SKU to manage multiple inventory batches simultaneously.</p>
+
+      <div class="label">Automation Pipeline</div>
+      <p class="body">Daily POS CSV export → VBA macro → automated stock reconciliation → dashboard refresh. The entire pipeline ran on a single trigger with no manual steps. Dashboard outputs: inventory on hand, days of inventory, low-stock alerts, overstock flags, expiry warnings, top sellers, slow movers, and markdown recommendations.</p>
+
+      <div class="callout"><strong>What this demonstrates:</strong> End-to-end system design, automation pipeline architecture, business logic implementation, and delivering measurable impact — ~$15,600 in annual savings from a system built without enterprise tooling.</div>
+    </section>
+
+    <!-- 05 EXPERIENCE -->
+    <section class="section" id="experience">
+      <div class="section-eyebrow">05 · Professional Experience</div>
+      <h2 class="section-title">Building in Financial Environments</h2>
+      <hr class="divider">
+
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-role">Analyst — Operations &amp; Asset Management</div>
+          <div class="tl-org">Deloitte · Dec 2020 – Nov 2022</div>
+          <div class="tl-tags">Built and automated lifecycle workflows for 1,500+ IT assets using ServiceNow · Requirements translation into technical specs · Cross-border operations: Netherlands, UK, Switzerland · 98%+ SLA compliance</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-role">Business Execution Associate — Corporate Risk</div>
+          <div class="tl-org">Wells Fargo · Nov 2022 – Aug 2024</div>
+          <div class="tl-tags">Designed Power BI, Tableau, and Excel reporting systems in a regulated financial environment · 18 programs, 6 products · 60+ process specifications · QA findings reduced from 8 to 3</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-role">Operations &amp; Process Analyst</div>
+          <div class="tl-org">ClearPath Automotive · Oct 2025 – Jan 2026</div>
+          <div class="tl-tags">Built AI-assisted pricing recommendation system · Automated manual valuation workflow · ~17% increase in average sale price</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-role">M.S., Industrial Engineering</div>
+          <div class="tl-org">NC State University · Graduated May 2026</div>
+          <div class="tl-tags">ISE 519 Database Applications (A+) · EM 538 Practical ML (A+) · Python for ISE · Statistical Methods (A) · Operations Research</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 TOOLKIT -->
+    <section class="section section-white" id="toolkit">
+      <div class="section-eyebrow">06 · Technical Toolkit</div>
+      <h2 class="section-title">Skills &amp; Tools</h2>
+      <hr class="divider">
+
+      <div class="toolkit-block">
+        <div class="toolkit-label">Programming &amp; Data</div>
+        <div class="tags">
+          <span class="tag tag-primary">Python</span>
+          <span class="tag tag-primary">SQL</span>
+          <span class="tag tag-primary">Excel VBA</span>
+          <span class="tag tag-primary">pandas</span>
+          <span class="tag tag-primary">NumPy</span>
+          <span class="tag tag-primary">scikit-learn</span>
+          <span class="tag tag-primary">XGBoost</span>
+          <span class="tag tag-primary">SHAP</span>
+          <span class="tag tag-primary">SAS</span>
+          <span class="tag tag-primary">GAMS</span>
+        </div>
+      </div>
+
+      <div class="toolkit-block">
+        <div class="toolkit-label">Databases &amp; Systems</div>
+        <div class="tags">
+          <span class="tag">Relational Database Design</span>
+          <span class="tag">MS Access</span>
+          <span class="tag">ServiceNow</span>
+          <span class="tag">Git</span>
+          <span class="tag">Power BI</span>
+          <span class="tag">Tableau</span>
+          <span class="tag">MS Project</span>
+        </div>
+      </div>
+
+      <div class="toolkit-block">
+        <div class="toolkit-label">Engineering &amp; Methods</div>
+        <div class="tags">
+          <span class="tag">Systems Design</span>
+          <span class="tag">Requirements Gathering</span>
+          <span class="tag">SDLC</span>
+          <span class="tag">Process Automation</span>
+          <span class="tag">Machine Learning</span>
+          <span class="tag">Optimization Modeling</span>
+          <span class="tag">Statistical Analysis</span>
+          <span class="tag">Root-Cause Analysis</span>
+          <span class="tag">Lean / Kanban</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 CONNECT -->
+    <section class="section" id="connect">
+      <div class="section-eyebrow">07 · Contact</div>
+      <h2 class="section-title">Let's Connect</h2>
+      <hr class="divider">
+
+      <p class="body">Foundation Engineering appeals to me because its platforms, data infrastructure, and developer tooling enable engineering teams across the firm. I would welcome the opportunity to bring experience in Python, SQL, database development, automation, and cross-functional problem-solving to that environment. If that resonates, I'd like to talk.</p>
+
+      <div class="connect-grid">
+        <a href="mailto:vhari98@gmail.com" class="connect-card">
+          <div class="connect-card-label">Email</div>
+          <div class="connect-card-value">vhari98@gmail.com</div>
+        </a>
+        <a href="https://linkedin.com/in/vhari98" class="connect-card" target="_blank">
+          <div class="connect-card-label">LinkedIn</div>
+          <div class="connect-card-value">linkedin.com/in/vhari98</div>
+        </a>
+        <a href="tel:9843792299" class="connect-card">
+          <div class="connect-card-label">Phone</div>
+          <div class="connect-card-value">984-379-2299</div>
+        </a>
+      </div>
+    </section>
+
+    <div class="portfolio-footer">
+      HARI PRASAD VENKATARAMANI &nbsp;·&nbsp; M.S. INDUSTRIAL ENGINEERING &nbsp;·&nbsp; PORTFOLIO 2026
+    </div>
+
+  </main>
+
+  <script>
+    const sections = document.querySelectorAll('section[id]:not(#home)');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          const match = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+          if (match) match.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-25% 0px -65% 0px' });
+    sections.forEach(s => io.observe(s));
+
+    function toggleMenu() { document.getElementById('mobileNav').classList.toggle('open'); }
+    function closeMenu() { document.getElementById('mobileNav').classList.remove('open'); }
+  </script>
+
+</body>
+</html>
